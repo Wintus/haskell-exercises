@@ -17,4 +17,4 @@ module Src.Chapter1
 
     -- (3)
     mancircle :: Int -> [(Int, Int)]
-    mancircle n = undefined {- Rewrite HERE! -}
+    mancircle n = filter (\p -> manlen p (0, 0) == n) $ points n
