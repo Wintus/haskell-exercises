@@ -10,7 +10,11 @@ module Src.Chapter3
 
     -- (1.1)
     tri_pattern :: Int -> Int
-    tri_pattern n = undefined {- Rewrite HERE! -}
+    tri_pattern 0 = 0
+    tri_pattern 1 = 0
+    tri_pattern 2 = 1
+    tri_pattern n = tri_pattern (n - 1) + tri_pattern (n - 2)
+                      + tri_pattern (n - 3)
 
     -- (1.2)
     tri_guard :: Int -> Int
