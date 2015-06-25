@@ -7,7 +7,7 @@ module Src.Chapter1
 
     -- (1)
     manlen :: (Int, Int) -> (Int, Int) -> Int
-    manlen p1 p2 = undefined {- Rewrite HERE! -}
+    manlen (a, b) (c, d) = abs(a - c) + abs(b - d)
 
     -- (2)
     points :: Int -> [(Int, Int)]
