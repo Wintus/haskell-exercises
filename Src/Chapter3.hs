@@ -26,7 +26,11 @@ module Src.Chapter3
 
     -- (1.3)
     tri_case :: Int -> Int
-    tri_case n = undefined {- Rewrite HERE! -}
+    tri_case n = case n of
+      0 -> 0
+      1 -> 0
+      2 -> 1
+      _ -> tri_pattern (n - 1) + tri_pattern (n - 2) + tri_pattern (n - 3)
 
     -- (2.1)
     qadd :: (Int, Int) -> (Int, Int) -> (Int, Int)
