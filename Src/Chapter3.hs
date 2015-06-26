@@ -18,7 +18,11 @@ module Src.Chapter3
 
     -- (1.2)
     tri_guard :: Int -> Int
-    tri_guard n = undefined {- Rewrite HERE! -}
+    tri_guard n
+      | n < 2     = 0
+      | n == 2    = 1
+      | otherwise =
+          tri_pattern (n - 1) + tri_pattern (n - 2) + tri_pattern (n - 3)
 
     -- (1.3)
     tri_case :: Int -> Int
