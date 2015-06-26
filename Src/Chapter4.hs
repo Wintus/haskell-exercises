@@ -11,7 +11,8 @@ module Src.Chapter4
 
     -- (1.1)
     tri_number :: Int -> Int
-    tri_number n = undefined {- Rewrite HERE! -}
+    tri_number 0 = 0
+    tri_number n = n + tri_number (n - 1)
 
     -- (1.2)
     tetration :: Integer -> Integer -> Integer
