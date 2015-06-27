@@ -16,7 +16,8 @@ module Src.Chapter4
 
     -- (1.2)
     tetration :: Integer -> Integer -> Integer
-    tetration x n = undefined {- Rewrite HERE! -}
+    tetration _ 0 = 1
+    tetration x n = x ^ tetration x (n - 1)
 
     -- (1.3)
     index :: Int -> [a] -> a
