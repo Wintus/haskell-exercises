@@ -35,7 +35,10 @@ module Src.Chapter4
 
     -- (2.1)
     insert :: Ord a => [a] -> a -> [a]
-    insert [] y = undefined {- Rewrite HERE! -}
+    insert [] y   = [y]
+    insert (x:xs) y
+      | x < y     = x : insert xs y
+      | otherwise = y : x : xs
 
     -- (2.2)
     isort :: Ord a => [a] -> [a]
