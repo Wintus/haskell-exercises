@@ -21,7 +21,8 @@ module Src.Chapter4
 
     -- (1.3)
     index :: Int -> [a] -> a
-    index n (x:_) = undefined {- Rewrite HERE! -}
+    index 0 (x:_)  = x
+    index n (_:xs) = index (n - 1) xs
 
     -- (1.4)
     even_odd :: [Int] -> ([Int], [Int])
