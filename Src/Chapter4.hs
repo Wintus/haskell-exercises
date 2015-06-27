@@ -26,7 +26,12 @@ module Src.Chapter4
 
     -- (1.4)
     even_odd :: [Int] -> ([Int], [Int])
-    even_odd [] = undefined {- Rewrite HERE! -}
+    even_odd []        = ([], [])
+    even_odd (x:xs)
+      | x `mod` 2 == 0 = (odds, x:evens)
+      | otherwise      = (x:odds, evens)
+      where
+        (odds, evens) = even_odd xs
 
     -- (2.1)
     insert :: Ord a => [a] -> a -> [a]
