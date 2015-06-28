@@ -74,35 +74,36 @@ module Src.Chapter5
     pointed1 xs = map negate (map (+10) (filter (>0) xs))
 
     pointFree1 :: [Int] -> [Int]
-    pointFree1 = undefined {- Rewrite HERE! -}
+    pointFree1 = map negate . map (+10) . filter (>0)
 
     -- (3.2)
     pointed2 :: [[Int]] -> [Int]
     pointed2 xss = scanl (+) 0 (map (foldl (*) 1) (filter (\xs -> length xs >= 2) xss))
 
     pointFree2 :: [[Int]] -> [Int]
-    pointFree2 = undefined {- Rewrite HERE! -}
+    pointFree2 = scanl (+) 0 . map (foldl (*) 1)
+                  . filter (\xs -> length xs >= 2)
 
     -- (3.3)
     pointed3 :: [a -> a] -> a -> a
     pointed3 fs x = foldl (\x f -> f x) x fs
 
     pointFree3 :: [a -> a] -> a -> a
-    pointFree3 = undefined {- Rewrite HERE! -}
+    pointFree3 = flip $ foldl' $ flip ($)
 
     -- (3.4)
     pointed4 :: (a -> [b]) -> [a] -> [b]
     pointed4 f xs = concat (map f xs)
 
     pointFree4 :: (a -> [b]) -> [a] -> [b]
-    pointFree4 = undefined {- Rewrite HERE! -}
+    pointFree4 = concatMap
 
     -- (3.5)
     pointed5 :: (Int -> [Int]) -> [Int] -> [Int]
     pointed5 f xs = foldl (\ys g -> g ys) xs (replicate 3 (\zs -> concat (map f zs)))
 
     pointFree5 :: (Int -> [Int]) -> [Int] -> [Int]
-    pointFree5 = undefined {- Rewrite HERE! -}
+    pointFree5 = (flip $ foldl $ flip ($)) . replicate 3 . concatMap
 
     -- (4.1.1)
     church n f z = undefined {- Rewrite HERE! -}
