@@ -106,19 +106,21 @@ module Src.Chapter5
     pointFree5 = (flip $ foldl $ flip ($)) . replicate 3 . concatMap
 
     -- (4.1.1)
-    church n f z = undefined {- Rewrite HERE! -}
+    church :: Int -> (a -> a) -> a -> a
+    church 0 _ z = z
+    church n f z = f . church (n - 1) f $ z
 
     -- (4.1.2)
-    unchurch c = undefined {- Rewrite HERE! -}
+    unchurch c = c (+1) 0
 
     -- (4.1.3)
-    csucc c f z = undefined {- Rewrite HERE! -}
+    csucc c f z = f . c f $ z
 
     -- (4.1.4)
-    cadd c1 c2 f z = undefined {- Rewrite HERE! -}
+    cadd c1 c2 f z = c2 f . c1 f $ z
 
     -- (4.1.5)
-    cmul c1 c2 f z = undefined {- Rewrite HERE! -}
+    cmul c1 c2 f z = c2 (c1 f) z
 
     -- (4.1.6)
     cpred c f z = undefined {- Rewrite HERE! -}
