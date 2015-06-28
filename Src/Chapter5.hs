@@ -36,6 +36,8 @@ module Src.Chapter5
     , clte2
     ) where
 
+    import Data.List (foldl')
+
     -- (1.1)
     applyPair :: (a -> b) -> (a, a) -> (b, b)
     applyPair f (x, y) = (f x, f y)
@@ -51,15 +53,21 @@ module Src.Chapter5
 
     -- (2.1)
     fromBinary :: [Int] -> Int
-    fromBinary xs = undefined {- Rewrite HERE! -}
+    fromBinary = foldl' (\x y -> 2 * x + y) 0
 
     -- (2.2)
     tails :: [a] -> [[a]]
-    tails xs = undefined {- Rewrite HERE! -}
+    tails = scanr (:) []
 
     -- (2.3)
     powerSet :: [a] -> [[a]]
-    powerSet xs = undefined {- Rewrite HERE! -}
+    powerSet = foldr (\x acc -> map (x:) acc ++ acc) [[]]
+
+    -- recursive version
+    powerSet' [] = [[]]
+    powerSet' (x:xs) = map (x:) yss ++ yss
+      where
+        yss = powerSet' xs
 
     -- (3.1)
     pointed1 :: [Int] -> [Int]
