@@ -38,15 +38,16 @@ module Src.Chapter5
 
     -- (1.1)
     applyPair :: (a -> b) -> (a, a) -> (b, b)
-    applyPair f (x,y) = undefined {- Rewrite HERE! -}
+    applyPair f (x, y) = (f x, f y)
 
     -- (1.2)
     applyN :: (a -> a) -> Int -> a -> a
-    applyN f n = undefined {- Rewrite HERE! -}
+    applyN _ 0 = id
+    applyN f n = f . applyN f (n - 1)
 
     -- (1.3)
     squares :: Int -> [Int]
-    squares n = undefined {- Rewrite HERE! -}
+    squares n = takeWhile (<= n) $ map (^2) [1..]
 
     -- (2.1)
     fromBinary :: [Int] -> Int
