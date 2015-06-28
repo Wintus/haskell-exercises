@@ -42,7 +42,8 @@ module Src.Chapter4
 
     -- (2.2)
     isort :: Ord a => [a] -> [a]
-    isort [] = undefined {- Rewrite HERE! -}
+    isort []     = []
+    isort (x:xs) = insert (isort xs) x
 
     --- (3)
     part_num :: Int -> Int
