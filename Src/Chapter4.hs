@@ -11,28 +11,45 @@ module Src.Chapter4
 
     -- (1.1)
     tri_number :: Int -> Int
-    tri_number n = undefined {- Rewrite HERE! -}
+    tri_number 0 = 0
+    tri_number n = n + tri_number (n - 1)
 
     -- (1.2)
     tetration :: Integer -> Integer -> Integer
-    tetration x n = undefined {- Rewrite HERE! -}
+    tetration _ 0 = 1
+    tetration x n = x ^ tetration x (n - 1)
 
     -- (1.3)
     index :: Int -> [a] -> a
-    index n (x:_) = undefined {- Rewrite HERE! -}
+    index 0 (x:_)  = x
+    index n (_:xs) = index (n - 1) xs
 
     -- (1.4)
     even_odd :: [Int] -> ([Int], [Int])
-    even_odd [] = undefined {- Rewrite HERE! -}
+    even_odd []        = ([], [])
+    even_odd (x:xs)
+      | x `mod` 2 == 0 = (odds, x:evens)
+      | otherwise      = (x:odds, evens)
+      where
+        (odds, evens) = even_odd xs
 
     -- (2.1)
     insert :: Ord a => [a] -> a -> [a]
-    insert [] y = undefined {- Rewrite HERE! -}
+    insert [] y   = [y]
+    insert (x:xs) y
+      | x < y     = x : insert xs y
+      | otherwise = y : x : xs
 
     -- (2.2)
     isort :: Ord a => [a] -> [a]
-    isort [] = undefined {- Rewrite HERE! -}
+    isort []     = []
+    isort (x:xs) = insert (isort xs) x
 
     --- (3)
     part_num :: Int -> Int
-    part_num n = undefined {- Rewrite HERE! -}
+    part_num n = part_num' n 1
+      where
+        part_num' n m
+          | n == m    = 1
+          | n < m     = 0
+          | otherwise = part_num' (n - m) m + part_num' n (m + 1)
