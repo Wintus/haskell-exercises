@@ -47,4 +47,9 @@ module Src.Chapter4
 
     --- (3)
     part_num :: Int -> Int
-    part_num n = undefined {- Rewrite HERE! -}
+    part_num n = part_num' n 1
+      where
+        part_num' n m
+          | n == m    = 1
+          | n < m     = 0
+          | otherwise = part_num' (n - m) m + part_num' n (m + 1)
