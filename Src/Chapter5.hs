@@ -36,82 +36,94 @@ module Src.Chapter5
     , clte2
     ) where
 
+    import Data.List (foldl')
+
     -- (1.1)
     applyPair :: (a -> b) -> (a, a) -> (b, b)
-    applyPair f (x,y) = undefined {- Rewrite HERE! -}
+    applyPair f (x, y) = (f x, f y)
 
     -- (1.2)
     applyN :: (a -> a) -> Int -> a -> a
-    applyN f n = undefined {- Rewrite HERE! -}
+    applyN _ 0 = id
+    applyN f n = f . applyN f (n - 1)
 
     -- (1.3)
     squares :: Int -> [Int]
-    squares n = undefined {- Rewrite HERE! -}
+    squares n = takeWhile (<= n) $ map (^2) [1..]
 
     -- (2.1)
     fromBinary :: [Int] -> Int
-    fromBinary xs = undefined {- Rewrite HERE! -}
+    fromBinary = foldl' (\x y -> 2 * x + y) 0
 
     -- (2.2)
     tails :: [a] -> [[a]]
-    tails xs = undefined {- Rewrite HERE! -}
+    tails = scanr (:) []
 
     -- (2.3)
     powerSet :: [a] -> [[a]]
-    powerSet xs = undefined {- Rewrite HERE! -}
+    powerSet = foldr (\x acc -> map (x:) acc ++ acc) [[]]
+
+    -- recursive version
+    powerSet' [] = [[]]
+    powerSet' (x:xs) = map (x:) yss ++ yss
+      where
+        yss = powerSet' xs
 
     -- (3.1)
     pointed1 :: [Int] -> [Int]
     pointed1 xs = map negate (map (+10) (filter (>0) xs))
 
     pointFree1 :: [Int] -> [Int]
-    pointFree1 = undefined {- Rewrite HERE! -}
+    pointFree1 = map negate . map (+10) . filter (>0)
 
     -- (3.2)
     pointed2 :: [[Int]] -> [Int]
     pointed2 xss = scanl (+) 0 (map (foldl (*) 1) (filter (\xs -> length xs >= 2) xss))
 
     pointFree2 :: [[Int]] -> [Int]
-    pointFree2 = undefined {- Rewrite HERE! -}
+    pointFree2 = scanl (+) 0 . map (foldl (*) 1)
+                  . filter (\xs -> length xs >= 2)
 
     -- (3.3)
     pointed3 :: [a -> a] -> a -> a
     pointed3 fs x = foldl (\x f -> f x) x fs
 
     pointFree3 :: [a -> a] -> a -> a
-    pointFree3 = undefined {- Rewrite HERE! -}
+    pointFree3 = flip $ foldl' $ flip ($)
 
     -- (3.4)
     pointed4 :: (a -> [b]) -> [a] -> [b]
     pointed4 f xs = concat (map f xs)
 
     pointFree4 :: (a -> [b]) -> [a] -> [b]
-    pointFree4 = undefined {- Rewrite HERE! -}
+    pointFree4 = concatMap
 
     -- (3.5)
     pointed5 :: (Int -> [Int]) -> [Int] -> [Int]
     pointed5 f xs = foldl (\ys g -> g ys) xs (replicate 3 (\zs -> concat (map f zs)))
 
     pointFree5 :: (Int -> [Int]) -> [Int] -> [Int]
-    pointFree5 = undefined {- Rewrite HERE! -}
+    pointFree5 = (flip $ foldl $ flip ($)) . replicate 3 . concatMap
 
     -- (4.1.1)
-    church n f z = undefined {- Rewrite HERE! -}
+    church :: Int -> (a -> a) -> a -> a
+    church 0 _ z = z
+    church n f z = f . church (n - 1) f $ z
 
     -- (4.1.2)
-    unchurch c = undefined {- Rewrite HERE! -}
+    unchurch c = c (+1) 0
 
     -- (4.1.3)
-    csucc c f z = undefined {- Rewrite HERE! -}
+    csucc c f z = f $ c f z
 
     -- (4.1.4)
-    cadd c1 c2 f z = undefined {- Rewrite HERE! -}
+    cadd c1 c2 f z = c2 f $ c1 f z
 
     -- (4.1.5)
-    cmul c1 c2 f z = undefined {- Rewrite HERE! -}
+    cmul c1 c2 f z = c2 (c1 f) z
 
     -- (4.1.6)
-    cpred c f z = undefined {- Rewrite HERE! -}
+    cpred c f z = c (\g h -> h $ g f) (const z) id
 
     -- (4.2 pre-defined)
     cTrue :: t -> t -> t
@@ -121,32 +133,34 @@ module Src.Chapter5
     cFalse = \t f -> f
 
     -- (4.2.1)
-    churchb b = undefined {- Rewrite HERE! -}
+    churchb b = if b then cTrue else cFalse
 
     -- (4.2.2)
-    unchurchb cb = undefined {- Rewrite HERE! -}
+    unchurchb cb = cb True False
 
     -- (4.2.3)
-    cnot cb = undefined {- Rewrite HERE! -}
+    cnot cb = cb cFalse cTrue
 
     -- (4.2.4)
-    cand cb1 cb2 = undefined {- Rewrite HERE! -}
+    cand cb1 cb2 = cb1 cb2 cFalse
 
     -- (4.2.5)
-    cor cb1 cb2 = undefined {- Rewrite HERE! -}
+    cor cb1 cb2 = cb1 cTrue cb2
 
     -- (4.3 pre-defined)
     cif :: (Bool -> Bool -> Bool) -> t -> t -> t
     cif cb t f = if unchurchb cb then t else f
 
     -- (4.3.1)
-    cis0 c = undefined {- Rewrite HERE! -}
+    cand' cb1 cb2 = cif cb1 cb2 cFalse
+    cis0 c        = c (cand' cFalse) cTrue -- zero = const
 
     -- (4.3.2)
-    ceven c = undefined {- Rewrite HERE! -}
+    cnot' cb = cif cb cFalse cTrue
+    ceven c  = c cnot' cTrue
 
     -- (4.3.3)
-    cevennot0 c = undefined {- Rewrite HERE! -}
+    cevennot0 c = ceven c `cand'` (cnot' $ cis0 c)
 
     -- (4.3.4)
-    clte2 c = undefined {- Rewrite HERE! -}
+    clte2 = cis0 . cpred . cpred
