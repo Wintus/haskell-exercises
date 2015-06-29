@@ -133,19 +133,19 @@ module Src.Chapter5
     cFalse = \t f -> f
 
     -- (4.2.1)
-    churchb b = undefined {- Rewrite HERE! -}
+    churchb b = if b then cTrue else cFalse
 
     -- (4.2.2)
-    unchurchb cb = undefined {- Rewrite HERE! -}
+    unchurchb cb = cb True False
 
     -- (4.2.3)
-    cnot cb = undefined {- Rewrite HERE! -}
+    cnot cb = cb cFalse cTrue
 
     -- (4.2.4)
-    cand cb1 cb2 = undefined {- Rewrite HERE! -}
+    cand cb1 cb2 = cb1 cb2 cFalse
 
     -- (4.2.5)
-    cor cb1 cb2 = undefined {- Rewrite HERE! -}
+    cor cb1 cb2 = cb1 cTrue cb2
 
     -- (4.3 pre-defined)
     cif :: (Bool -> Bool -> Bool) -> t -> t -> t
