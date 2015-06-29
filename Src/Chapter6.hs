@@ -11,7 +11,6 @@ module Src.Chapter6
     import Data.Char
     import Data.Bits
     import Control.Arrow ((&&&))
-    import Control.Monad (guard)
 
     -- (1.1)
     -- https://github.com/thoughtbot/til/blob/master/haskell/sorting-in-reverse-order.md
@@ -26,12 +25,10 @@ module Src.Chapter6
 
     -- (1.3)
     infixPalindromicNumber :: Int -> Int
-    infixPalindromicNumber n = head $ do
-      m <- [0..]
-      let m' = show m
-      guard $ reverse m' == m'
-      guard $ show n `isInfixOf` m'
-      return m
+    infixPalindromicNumber n = head [m | m <- [0..]
+      , let m' = show m
+      , reverse m' == m'
+      , show n `isInfixOf` m']
 
 
     -- (2)
