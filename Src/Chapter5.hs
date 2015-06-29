@@ -114,10 +114,10 @@ module Src.Chapter5
     unchurch c = c (+1) 0
 
     -- (4.1.3)
-    csucc c f z = f . c f $ z
+    csucc c f z = f $ c f z
 
     -- (4.1.4)
-    cadd c1 c2 f z = c2 f . c1 f $ z
+    cadd c1 c2 f z = c2 f $ c1 f z
 
     -- (4.1.5)
     cmul c1 c2 f z = c2 (c1 f) z
