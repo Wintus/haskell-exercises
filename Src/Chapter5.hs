@@ -152,13 +152,15 @@ module Src.Chapter5
     cif cb t f = if unchurchb cb then t else f
 
     -- (4.3.1)
-    cis0 c = undefined {- Rewrite HERE! -}
+    cand' cb1 cb2 = cif cb1 cb2 cFalse
+    cis0 c        = c (cand' cFalse) cTrue -- zero = const
 
     -- (4.3.2)
-    ceven c = undefined {- Rewrite HERE! -}
+    cnot' cb = cif cb cFalse cTrue
+    ceven c  = c cnot' cTrue
 
     -- (4.3.3)
-    cevennot0 c = undefined {- Rewrite HERE! -}
+    cevennot0 c = ceven c `cand'` (cnot' $ cis0 c)
 
     -- (4.3.4)
-    clte2 c = undefined {- Rewrite HERE! -}
+    clte2 = cis0 . cpred . cpred
