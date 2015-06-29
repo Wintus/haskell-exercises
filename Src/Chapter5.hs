@@ -123,7 +123,7 @@ module Src.Chapter5
     cmul c1 c2 f z = c2 (c1 f) z
 
     -- (4.1.6)
-    cpred c f z = undefined {- Rewrite HERE! -}
+    cpred c f z = c (\g h -> h $ g f) (const z) id
 
     -- (4.2 pre-defined)
     cTrue :: t -> t -> t
