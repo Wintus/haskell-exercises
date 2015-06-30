@@ -25,10 +25,10 @@ module Src.Chapter6
 
     -- (1.3)
     infixPalindromicNumber :: Int -> Int
-    infixPalindromicNumber n = head [m | m <- [0..]
-      , let m' = show m
-      , reverse m' == m'
-      , show n `isInfixOf` m']
+    infixPalindromicNumber n = head [m | m <- [0..],
+      let m' = show m,
+      reverse m' == m',
+      show n `isInfixOf` m']
 
 
     -- (2)
