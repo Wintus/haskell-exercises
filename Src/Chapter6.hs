@@ -33,4 +33,4 @@ module Src.Chapter6
 
     -- (2)
     vernam :: String -> String -> String
-    vernam k s = undefined {- Rewrite HERE! -}
+    vernam k s = map chr $ zipWith xor (map ord $ cycle k) (map ord s)
