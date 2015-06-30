@@ -10,19 +10,27 @@ module Src.Chapter6
     import qualified Data.Map as Map
     import Data.Char
     import Data.Bits
+    import Control.Arrow ((&&&))
 
     -- (1.1)
+    -- https://github.com/thoughtbot/til/blob/master/haskell/sorting-in-reverse-order.md
     sortByFrequency :: Ord a => [a] -> [a]
-    sortByFrequency xs = undefined {- Rewrite HERE! -}
+    sortByFrequency = map head . sortBy (comparing $ Down . length)
+                        . group . sort
 
     -- (1.2)
     initialMap :: [String] -> Map.Map Char [String]
-    initialMap ss = undefined {- Rewrite HERE! -}
+    initialMap = Map.fromListWith (++) . map (head &&& return)
+                  . filter (not . null)
 
     -- (1.3)
     infixPalindromicNumber :: Int -> Int
-    infixPalindromicNumber n = undefined {- Rewrite HERE! -}
+    infixPalindromicNumber n = head [m | m <- [0..],
+      let m' = show m,
+      reverse m' == m',
+      show n `isInfixOf` m']
+
 
     -- (2)
     vernam :: String -> String -> String
-    vernam k s = undefined {- Rewrite HERE! -}
+    vernam k s = map chr $ zipWith xor (map ord $ cycle k) (map ord s)
